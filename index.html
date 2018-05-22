@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<meta id="viewport" name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+	<script>
+        window.onload = window.onresize = function(){
+            var view_width = document.getElementsByTagName('html')[0].getBoundingClientRect().width;
+
+            var _html = document.getElementsByTagName('html')[0];
+            view_width>640?_html.style.fontSize = 640 / 16 + 'px':_html.style.fontSize = view_width / 16 + 'px';
+        }
+    </script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EOwd6ZKI4dBvX7YYFiW7nBpg4jC7BXgI"></script>
+	<title>地图展示</title>
+
+	<style>
+		.BMap_pop>div{
+			/*top:47px!important;*/
+		}
+		.BMap_center{
+			/*height: 22px!important;*/
+		}
+		.BMap_bottom{
+			/*top:47px!important;*/
+		}
+		.BMap_bubble_title{
+			width: 100%!important;
+			height: 1.5rem!important;
+			float: left;
+		}
+		.BMap_bubble_title img{
+			/*width: 60px;
+			height: 60px;
+			border-radius:50%;
+			float: left;*/
+		}
+		.BMap_bubble_title p{
+			/*float: left;
+			font-size:16px;*/
+		}
+		.BMap_bubble_content{
+			/*float: left;*/
+		}
+		.BMap_bubble_content a{
+			/*float: left;
+			width: 80px;
+			height: 60px;
+			font-size:16px;
+			background-color: #FF6634;
+			color:#fff;
+			text-decoration: none;*/
+		}
+	</style>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+	var lng = "115.457935";
+	var lat = "38.859719";
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(lng,lat);
+	map.centerAndZoom(point,15);
+	map.enableScrollWheelZoom();
+
+
+
+	var opts = {
+		width: 287,
+		height: 60,
+		title: "<img src='favicon.ico' alt='' /><p>保定</p>",
+		enableMessage: true
+	};
+
+	addMaker(115.4575,38.859266, onMakerClick);
+	addMaker(115.457482,38.859333, onMakerClickDiv);
+	function addMaker(lng,lat,clickFun) {
+		var marker = new BMap.Marker(new BMap.Point(lng,lat));
+		map.addOverlay(marker);
+		marker.addEventListener("click", clickFun);
+	}
+
+
+
+
+	function onMakerClick(e) {
+		var p = e.target;
+
+		var text = "<a href='www.baidu.com'>共享</a>";
+		console.log(text);
+		console.log(p.getPosition);
+
+
+		var point = new BMap.Point(p.getPosition().lng,p.getPosition().lat);
+		var infoWindow = new BMap.InfoWindow(text,opts);
+		map.openInfoWindow(infoWindow,point);
+	}
+
+
+	function showInfo(e) {
+		console.log(e.point.lng + "," + e.point.lastModified);
+	}
+	map.addEventListener("click",showInfo);
+
+
+
+
+
+
+
+</script>
